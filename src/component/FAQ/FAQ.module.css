@@ -1,0 +1,90 @@
+.wrap {
+  padding: 64px 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(0, 0, 0, 0)
+  );
+  border-top: 1px solid #222a55;
+  border-bottom: 1px solid #222a55;
+}
+
+.h2 {
+  text-align: center;
+  margin: 0 0 18px;
+  font-family: Montserrat, Inter, sans-serif;
+  font-weight: 800;
+  font-size: clamp(24px, 3.4vw, 36px);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+  max-width: 1000px;
+  margin-inline: auto;
+}
+
+.item {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.q {
+  width: 100%;
+  text-align: left;
+  background: #141845;
+  color: #fff;
+  border: 1px solid #2a2f63;
+  padding: 14px 16px;
+  border-radius: 10px;
+  font-weight: 800;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.q:hover {
+  border-color: #3b47a6;
+}
+.on {
+  border-color: var(--gold);
+}
+
+.icon {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #0f1336;
+  border: 1px solid #2a2f63;
+}
+
+/* animated answer wrap */
+.aWrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease, opacity 0.25s ease;
+  opacity: 0;
+}
+.open {
+  max-height: 320px;
+  opacity: 1;
+} /* enough for typical answers */
+
+.answer {
+  background: #fff;
+  color: #0f1226;
+  padding: 14px 16px;
+  border: 1px solid #e6e7ef;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  line-height: 1.6;
+}
+
+/* Dark-mode variant if you swap palette later
+.answer{ background:var(--card); color:var(--ink); border-color:#2a2f63; } */

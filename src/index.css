@@ -1,0 +1,89 @@
+:root {
+  /* --bg: #0b0f2c; */
+  --card: #12163a;
+  --ink: #f4f6ff;
+  --muted: #aab1d6;
+  --gold: #ffd76a;
+  --accent: #6ad1ff;
+  --success: #46e7a5;
+  --danger: #ff7a7a;
+  --ring: 0 0 0 3px rgba(255, 215, 106, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  color: var(--ink);
+  background: radial-gradient(
+      1200px 600px at 80% -10%,
+      #1a2050 0%,
+      #0b0f2c 45%,
+      #070a1f 100%
+    )
+    fixed;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+  line-height: 1.45;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.section {
+  padding: 72px 0;
+}
+.kbd {
+  padding: 0.15rem 0.4rem;
+  border: 1px solid #2a2f5b;
+  border-radius: 6px;
+  background: #0e1336;
+  color: #cfd4ff;
+}
+.shadow-xl {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+.h1 h1 {
+  font-size: clamp(24px, 5vw, 48px);
+}
+
+.h2 h2 {
+  font-size: clamp(20px, 3.6vw, 36px);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}

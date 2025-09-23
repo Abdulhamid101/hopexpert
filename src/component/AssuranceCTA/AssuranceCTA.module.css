@@ -1,0 +1,121 @@
+.wrap {
+  position: relative;
+  padding: 72px 0;
+  border-top: 1px solid #23274f;
+  border-bottom: 1px solid #23274f;
+  overflow: hidden;
+}
+
+/* Background: layered coin silhouette + flowing mesh gradient */
+.bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      1200px 600px at 80% -10%,
+      rgba(56, 189, 248, 0.15),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 10% 110%,
+      rgba(255, 215, 106, 0.18),
+      transparent 60%
+    ),
+    url("/coin-bg.svg") center/cover no-repeat,
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.35));
+  opacity: 0.9;
+  filter: saturate(120%);
+}
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: -20% -10% -10% -10%;
+  background: radial-gradient(
+      35% 25% at 70% 40%,
+      rgba(255, 255, 255, 0.05),
+      transparent 60%
+    ),
+    conic-gradient(
+      from 0deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0.04)
+    );
+  animation: drift 18s linear infinite;
+  mix-blend-mode: overlay;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(2%, -2%, 0) rotate(180deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(360deg);
+  }
+}
+
+.box {
+  position: relative;
+  padding: 0 4px;
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.h2 {
+  margin: 0 0 14px;
+  font-family: Montserrat, Inter, sans-serif;
+  font-weight: 800;
+  font-size: clamp(24px, 3.6vw, 40px);
+  letter-spacing: 0.2px;
+  color: var(--ink);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+
+.p {
+  margin: 0 auto 14px;
+  max-width: 70ch;
+  color: var(--ink);
+  opacity: 0.92;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 800;
+  color: #0c122e;
+  background: linear-gradient(135deg, var(--gold), #ffb347);
+  box-shadow: 0 14px 36px rgba(255, 215, 106, 0.28);
+  border: 0;
+}
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 46px rgba(255, 215, 106, 0.35);
+}
+.btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+  .wrap {
+    padding: 56px 0;
+  }
+  .p {
+    text-align: left;
+    padding: 0 4px;
+    max-width: unset;
+  }
+  .box {
+    text-align: left;
+  }
+  .btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

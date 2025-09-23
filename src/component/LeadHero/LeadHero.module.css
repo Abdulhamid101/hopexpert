@@ -1,0 +1,147 @@
+.wrap {
+  padding: 40px 0 64px;
+}
+.h1 {
+  text-align: center;
+  margin: 0 0 18px;
+  font-family: Montserrat, Inter, sans-serif;
+  font-weight: 800;
+  font-size: clamp(26px, 4.2vw, 46px);
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+}
+
+.card {
+  background: #0f1226;
+  /* color: #0f1226; */
+  border-radius: 12px;
+  border: 1px solid #e7e8f2;
+  padding: 16px;
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.22);
+}
+
+.row2 {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.label {
+  font-weight: 700;
+  color: white;
+}
+.req {
+  color: #e11d48;
+  margin-left: 4px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 8px;
+  border: 1px solid #cfd2e5;
+  background: #eeeaea;
+  outline: none;
+}
+.input:focus {
+  border-color: #47d0ff;
+  box-shadow: 0 0 0 3px rgba(71, 208, 255, 0.2);
+}
+
+.submit {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 800;
+  color: #181818;
+  background: linear-gradient(135deg, var(--gold, #ffd76a), #ffb347);
+  box-shadow: 0 14px 36px rgba(255, 215, 106, 0.28);
+}
+.submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Right visual */
+.visual {
+  position: relative;
+  margin: 0;
+  height: 520px;
+  display: grid;
+  place-items: center;
+}
+@media (max-width: 980px) {
+  .visual {
+    height: 360px;
+  }
+}
+.coin {
+  position: absolute;
+  width: min(540px, 90%);
+  filter: drop-shadow(0 24px 50px rgba(0, 0, 0, 0.45));
+  transform: translateY(10px);
+}
+.person {
+  position: relative;
+  width: min(440px, 80%);
+  transform: translateY(10px);
+  filter: drop-shadow(0 16px 40px rgba(0, 0, 0, 0.35));
+}
+
+@media (max-width: 980px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .row2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid{
+    grid-template-columns: 1fr;
+  }
+  .visual{
+    position: relative;
+    margin: 0;
+    height: auto;
+    min-height: 300px;
+  }
+  .coin{
+    width: min(440px, 80%);
+  }
+  .person{
+    width: min(360px, 75%);
+  }
+}
+
+@media (max-width: 480px) {
+  .coin{
+    display: none;
+  }
+  .person{
+    width: 72%;
+  }
+  .input{
+    padding: 14px, 12px;
+  }
+  .submit{
+    padding: 14px, 16px;
+  }
+}

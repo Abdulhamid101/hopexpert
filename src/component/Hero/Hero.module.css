@@ -1,0 +1,117 @@
+.hero {
+  position: relative;
+  padding: 84px 0 56px;
+  overflow: hidden;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 42px;
+  align-items: center;
+}
+.left {
+}
+.badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #2a2f63;
+  border-radius: 999px;
+  padding: 6px 12px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.h1 {
+  font-family: Montserrat, Inter, sans-serif;
+  font-size: clamp(28px, 4.2vw, 56px);
+  line-height: 1.05;
+  margin: 0 0 10px;
+  font-weight: 800;
+}
+.highlight {
+  color: transparent;
+  background: linear-gradient(90deg, var(--gold), #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow: 0 0 40px rgba(255, 215, 106, 0.15);
+}
+.sub {
+  color: var(--muted);
+  max-width: 58ch;
+  margin: 8px 0 18px;
+}
+.points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.points li {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid #2a2f63;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.trust {
+  display: flex;
+  gap: 10px;
+  opacity: 0.85;
+}
+
+.right {
+  background: linear-gradient(180deg, #151a48, #0f1338);
+  border: 1px solid #293066;
+  border-radius: 20px;
+  padding: 18px;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(2, 6, 30, 0.55);
+}
+
+.aura {
+  position: absolute;
+  inset: auto -15% -35% -15%;
+  filter: blur(70px);
+  height: 380px;
+  background: radial-gradient(closest-side, #2d3ebf66, #0000);
+  z-index: -1;
+}
+.floating {
+  position: absolute;
+  inset: auto 0 6%;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  pointer-events: none;
+}
+.chip {
+  background: linear-gradient(180deg, #1b2158, #0c1031);
+  border: 1px solid #2a2f63;
+  padding: 6px 10px;
+  border-radius: 10px;
+  opacity: 0.9;
+  animation: float 6s ease-in-out infinite;
+}
+.chip:nth-child(2) {
+  animation-delay: 0.6s;
+}
+.chip:nth-child(3) {
+  animation-delay: 1.2s;
+}
+.chip:nth-child(4) {
+  animation-delay: 1.8s;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
