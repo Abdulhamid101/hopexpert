@@ -5,13 +5,13 @@ import { scrollToId } from "../../utils/scrollToId";
 import s from "./NavBar.module.css";
 
 const SERVICES = [
-  { label: "Cryptocurrency Scam Recovery", to: "/services/crypto" },
-  { label: "Forex Scam", to: "/services/forex" },
-  { label: "NFT Scam", to: "/services/nft" },
-  { label: "Ponzi Schemes", to: "/services/ponzi" },
-  { label: "Romance Scam", to: "/services/romance" },
-  { label: "Tax Refund Investigation", to: "/services/tax-refund" },
-  { label: "Internet Scam", to: "/services/internet" },
+  { label: "Cryptocurrency Scam Recovery", to: "servicescrypto" },
+  { label: "Forex Scam", to: "servicesforex" },
+  { label: "NFT Scam", to: "servicesnft" },
+  { label: "Ponzi Schemes", to: "servicesponzi" },
+  { label: "Romance Scam", to: "servicesromance" },
+  { label: "Tax Refund Investigation", to: "servicestax" },
+  { label: "Internet Scam", to: "servicesinternet" },
   { label: "Social Media Scam", to: "/services/social" },
 ];
 
