@@ -94,8 +94,9 @@
     grid-template-columns: 1fr;
   }
   .card {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
     gap: 12px;
     align-items: center;
     padding: 14px;

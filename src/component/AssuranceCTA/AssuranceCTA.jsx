@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import s from "./AssuranceCTA.module.css";
 
 export default function AssuranceCTA({
@@ -18,9 +19,9 @@ export default function AssuranceCTA({
           </h2>
           <p className={s.p}>{para1}</p>
           <p className={s.p}>{para2}</p>
-          <a className={s.btn} href={ctaHref}>
+          <Link to="/about"  onClick={() => setOpen(false)} className={s.btn} href={ctaHref}>
             {ctaText}
-          </a>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,5 +1,7 @@
 import React from "react";
 import s from "./WhyUs.module.css";
+import { Link } from "react-router-dom";
+import image from "../../assets/whyusimg.jpeg"
 
 export default function WhyUs({
   title = "Why Us",
@@ -9,7 +11,6 @@ export default function WhyUs({
     "We combine advanced tracing tech with legal and compliance partners to pursue recoveries fast.",
     "You get a dedicated specialist and a personalized plan designed around your case.",
   ],
-  image = "/why-us.jpg",
   ctaText = "Connect With Us",
   ctaHref = "#contact",
 }) {
@@ -36,9 +37,9 @@ export default function WhyUs({
                 </li>
               ))}
             </ul>
-            <a className={s.cta} href={ctaHref}>
+            <Link to="/contact"  onClick={() => setOpen(false)} className={s.cta} href={ctaHref}>
               {ctaText}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,13 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { scrollToId } from "../../utils/scrollToId";
 import s from "./NavBar.module.css";
 
-export default function NavBar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false); // for portal safety
+const SERVICES = [
+  { label: "Cryptocurrency Scam Recovery", to: "/services/crypto" },
+  { label: "Forex Scam", to: "/services/forex" },
+  { label: "NFT Scam", to: "/services/nft" },
+  { label: "Ponzi Schemes", to: "/services/ponzi" },
+  { label: "Romance Scam", to: "/services/romance" },
+  { label: "Tax Refund Investigation", to: "/services/tax-refund" },
+  { label: "Internet Scam", to: "/services/internet" },
+  { label: "Social Media Scam", to: "/services/social" },
+];
 
-  // Sticky shadow on scroll
+export default function NavBar() {
+  const [svcOpenMobile, setSvcOpenMobile] = useState(false);
+
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false); // mobile drawer
+  const [mounted, setMounted] = useState(false);
+  const [svcOpen, setSvcOpen] = useState(false); // desktop dropdown
+  const { pathname } = useLocation();
+  const nav = useNavigate();
+  const menuBtnRef = useRef(null);
+  const svcRef = useRef(null);
+
+  // header bg on scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 2);
     onScroll();
@@ -15,10 +35,9 @@ export default function NavBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Ready to portal
   useEffect(() => setMounted(true), []);
 
-  // Body scroll lock (no jump)
+  // lock body scroll when drawer is open
   useEffect(() => {
     const body = document.body;
     if (open) {
@@ -34,22 +53,66 @@ export default function NavBar() {
       body.style.top = "";
       body.style.width = "";
       window.scrollTo(0, y);
+      requestAnimationFrame(() => menuBtnRef.current?.focus());
     }
   }, [open]);
 
-  // Close on Escape
+  // ESC closes
   useEffect(() => {
-    const onKey = (e) => e.key === "Escape" && setOpen(false);
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setSvcOpen(false);
+      }
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const close = () => setOpen(false);
+  // click outside desktop dropdown
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (svcRef.current && !svcRef.current.contains(e.target))
+        setSvcOpen(false);
+    };
+    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("touchstart", onDocClick, { passive: true });
+    return () => {
+      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("touchstart", onDocClick);
+    };
+  }, []);
+
+  // close on route change
+  useEffect(() => {
+    if (open) setOpen(false);
+    if (svcOpen) setSvcOpen(false);
+  }, [pathname]);
+
+  // anchors
+  const goto = (hash) => {
+    const id = hash.replace(/^#/, "");
+    setOpen(false);
+    if (pathname !== "/") {
+      nav("/" + hash);
+      requestAnimationFrame(() => setTimeout(() => scrollToId(id), 0));
+    } else {
+      window.history.pushState({}, "", `/${hash}`);
+      scrollToId(id);
+    }
+  };
 
   return (
     <header className={`${s.nav} ${scrolled ? s.scrolled : ""}`}>
       <div className={`${s.inner} container`}>
-        <a className={s.brand} href="#top">
+        <a
+          className={s.brand}
+          href="/#top"
+          onClick={(e) => {
+            e.preventDefault();
+            goto("#top");
+          }}
+        >
           <span className={s.coin} aria-hidden>
             Ƀ
           </span>
@@ -58,21 +121,100 @@ export default function NavBar() {
           </span>
         </a>
 
-        {/* Desktop links */}
+        {/* Desktop */}
         <nav className={s.links} aria-label="Primary">
-          <a href="#how">How it works</a>
-          <a href="#why">Why us</a>
-          <a href="#reviews">Reviews</a>
-          <a href="#faq">FAQ</a>
+          <a
+            href="/#process"
+            onClick={(e) => {
+              e.preventDefault();
+              goto("#process");
+            }}
+          >
+            How it works
+          </a>
+          <a
+            href="/#why-us"
+            onClick={(e) => {
+              e.preventDefault();
+              goto("#why-us");
+            }}
+          >
+            Why us
+          </a>
+
+          <div ref={svcRef} className={s.menu}>
+            <button
+              type="button"
+              className={`${s.menuLink} ${svcOpen ? s.menuLinkOpen : ""}`}
+              onClick={() => setSvcOpen((v) => !v)}
+              aria-expanded={svcOpen}
+              aria-haspopup="true"
+              aria-controls="svc-dd"
+            >
+              Our Services{" "}
+              <span
+                className={`${s.caret} ${svcOpen ? s.caretOpen : ""}`}
+                aria-hidden
+              >
+                ▾
+              </span>
+            </button>
+            <div
+              id="svc-dd"
+              className={`${s.dropdown} ${svcOpen ? s.dropdownOpen : ""}`}
+              role="menu"
+            >
+              {SERVICES.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={s.dropItem}
+                  role="menuitem"
+                  onClick={() => {
+                    setSvcOpen(false);
+                    setOpen(false);
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <a
+            href="/#reviews"
+            onClick={(e) => {
+              e.preventDefault();
+              goto("#reviews");
+            }}
+          >
+            Reviews
+          </a>
+          <a
+            href="/#faq"
+            onClick={(e) => {
+              e.preventDefault();
+              goto("#faq");
+            }}
+          >
+            FAQ
+          </a>
         </nav>
 
-        {/* Desktop CTA */}
-        <a className={s.cta} href="#start">
+        <a
+          className={s.cta}
+          href="/#start"
+          onClick={(e) => {
+            e.preventDefault();
+            goto("#start");
+          }}
+        >
           Free Case Review
         </a>
 
         {/* Hamburger */}
         <button
+          ref={menuBtnRef}
           className={s.menuBtn}
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
@@ -83,47 +225,81 @@ export default function NavBar() {
         </button>
       </div>
 
-      {/* Portal overlay: backdrop + drawer */}
       {mounted &&
         createPortal(
           <>
-            {/* Backdrop click to close */}
             <button
               className={`${s.backdrop} ${open ? s.show : ""}`}
               aria-hidden={!open}
               tabIndex={-1}
-              onClick={close}
+              onClick={() => setOpen(false)}
             />
-            {/* Drawer */}
             <nav
               id="nav-drawer"
               className={`${s.drawer} ${open ? s.drawOpen : ""}`}
               aria-label="Mobile"
             >
-              {/* Close button inside drawer */}
               <button
                 className={s.closeBtn}
-                onClick={close}
+                onClick={() => setOpen(false)}
                 aria-label="Close menu"
               >
                 ✕
               </button>
 
-              <a onClick={close} href="#how">
+              <div className={s.mobileGroup}>
+                <button
+                  className={s.mobileSummary}
+                  aria-expanded={svcOpenMobile}
+                  aria-controls="svc-panel"
+                  onClick={() => setSvcOpenMobile((v) => !v)}
+                >
+                  <span>Our Services</span>
+                  <span
+                    className={`${s.chev} ${svcOpenMobile ? s.chevOpen : ""}`}
+                    aria-hidden
+                  />
+                </button>
+
+                <div
+                  id="svc-panel"
+                  className={s.mobilePanel}
+                  hidden={!svcOpenMobile}
+                >
+                  <div className={s.mobileList}>
+                    {SERVICES.map((item) => (
+                      <Link
+                        key={item.to}
+                        to={item.to}
+                        className={s.mobileItem}
+                        onClick={() => setOpen(false)}
+                      >
+                        <span className={s.bullet} aria-hidden />
+                        <span className={s.itemText}>{item.label}</span>
+                        <span className={s.arrow} aria-hidden>
+                          →
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <button className={s.anchorBtn} onClick={() => goto("#process")}>
                 How it works
-              </a>
-              <a onClick={close} href="#why">
+              </button>
+              <button className={s.anchorBtn} onClick={() => goto("#why-us")}>
                 Why us
-              </a>
-              <a onClick={close} href="#reviews">
+              </button>
+              <button className={s.anchorBtn} onClick={() => goto("#reviews")}>
                 Reviews
-              </a>
-              <a onClick={close} href="#faq">
+              </button>
+              <button className={s.anchorBtn} onClick={() => goto("#faq")}>
                 FAQ
-              </a>
-              <a onClick={close} href="#start" className={s.mobileCta}>
+              </button>
+              <button className={s.mobileCta} onClick={() => goto("#start")}>
                 Free Case Review
-              </a>
+              </button>
             </nav>
           </>,
           document.body
