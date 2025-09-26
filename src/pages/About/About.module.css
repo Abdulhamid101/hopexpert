@@ -284,6 +284,20 @@
   margin-bottom: 10px;
   filter: saturate(0.85);
 }
+
+.avatarImg {
+  width: 96px;
+  height: 96px;
+  border-radius: 9999px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 0.5rem;
+  /* optional glow/frame */
+  border: 2px solid #f2c14e; 
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+
 .role {
   color: var(--muted);
   margin-top: 2px;

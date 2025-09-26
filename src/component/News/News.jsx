@@ -1,5 +1,9 @@
 import React, { useMemo, useState } from "react";
 import s from "./News.module.css";
+import image1 from "../../assets/cryptonewsimg1.jpg"
+import image2 from "../../assets/forexnewsimg1.jpg" 
+import image3 from "../../assets/romanceimg.webp"
+import image4 from "../../assets/scamimg.webp"
 
 /* Replace with your real posts or pass as a prop */
 const DEMO = [
@@ -9,7 +13,7 @@ const DEMO = [
     excerpt:
       "We tested response times and evidence formats that speed up compliance reviews. Here’s how to structure your report for faster action.",
     href: "#read-p1",
-    img: "/news/crypto-tracing.jpg",
+    img: image1,
     date: "2025-08-12",
   },
   {
@@ -18,7 +22,7 @@ const DEMO = [
     excerpt:
       "Execution quirks, bonus traps, withdrawal friction—this year’s common patterns and how to document them for your bank.",
     href: "#read-p2",
-    img: "/news/forex-redflags.jpg",
+    img: image2,
     date: "2025-07-22",
   },
   {
@@ -27,7 +31,7 @@ const DEMO = [
     excerpt:
       "Messaging timelines, transfer intent, and misleading claims—build a narrative that meets dispute teams where they are.",
     href: "#read-p3",
-    img: "/news/romance-evidence.jpg",
+    img: image3,
     date: "2025-07-01",
   },
   {
@@ -36,7 +40,7 @@ const DEMO = [
     excerpt:
       "When card rails touched the funds, you have options. A practical guide for issuers, descriptors, and deadlines.",
     href: "#read-p4",
-    img: "/news/chargeback-guide.jpg",
+    img: image4,
     date: "2025-06-15",
   },
 ];

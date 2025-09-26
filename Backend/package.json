@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "Server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build:countries": "node scripts/build-countries.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "i18n-iso-countries": "^7.14.0",
+    "libphonenumber-js": "^1.12.22",
+    "nedb-promises": "^6.2.3",
+    "nodemailer": "^7.0.6"
+  }
+}

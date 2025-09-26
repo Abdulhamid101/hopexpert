@@ -1,17 +1,36 @@
-// src/pages/About/About.jsx
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import s from "./About.module.css";
+import image1 from "../../assets/aboutimg1.jpg";
+import image2 from "../../assets/aboutimg2.jpeg";
+import image3 from "../../assets/aboutimg3.jpg";
+
+const TEAM = [
+  {
+    name: "Jane Bright",
+    role: "Head, Investigations",
+    bio: "Blockchain tracing, exchange escalations, case orchestration.",
+    img: image1,
+  },
+  {
+    name: "Charles Roylse",
+    role: "Client Operations",
+    bio: "Intake, documentation, and client guidance through recovery.",
+    img: image2,
+  },
+  {
+    name: "Partner Counsel",
+    role: "Legal Network",
+    bio: "Cross-border freezes, platform demands, filings as needed.",
+    img: image3,
+  },
+];
 
 export default function About() {
-  // Scroll to top on mount
   useEffect(() => window.scrollTo(0, 0), []);
 
   return (
-    // inside About.jsx (only showing the changed wrappers/classes)
-
     <main className={s.shell}>
-      {/* Hero */}
       <section className={s.hero}>
         <div className="container">
           <p className={s.kicker}>
@@ -32,7 +51,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Stats */}
       <section className={s.stats}>
         <div className="container">
           <ul className={s.statGrid}>
@@ -107,28 +125,19 @@ export default function About() {
         <div className="container">
           <h2>Leadership</h2>
           <div className={s.grid3}>
-            <article className={s.person}>
-              <div className={s.avatar} aria-hidden />
-              <h3>Taiwo Kafidipe</h3>
-              <p className={s.role}>Head, Investigations</p>
-              <p>
-                Blockchain tracing, exchange escalations, case orchestration.
-              </p>
-            </article>
-            <article className={s.person}>
-              <div className={s.avatar} aria-hidden />
-              <h3>Adeshina Musiliu</h3>
-              <p className={s.role}>Client Operations</p>
-              <p>
-                Intake, documentation, and client guidance through recovery.
-              </p>
-            </article>
-            <article className={s.person}>
-              <div className={s.avatar} aria-hidden />
-              <h3>Partner Counsel</h3>
-              <p className={s.role}>Legal Network</p>
-              <p>Cross-border freezes, platform demands, filings as needed.</p>
-            </article>
+            {TEAM.map((m) => (
+              <article key={m.name} className={s.person}>
+                <img
+                  className={s.avatarImg}
+                  src={m.img}
+                  alt={`${m.name} — ${m.role}`}
+                  loading="lazy"
+                />
+                <h3>{m.name}</h3>
+                <p className={s.role}>{m.role}</p>
+                <p>{m.bio}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

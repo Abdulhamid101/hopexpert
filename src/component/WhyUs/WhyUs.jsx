@@ -1,7 +1,7 @@
 import React from "react";
 import s from "./WhyUs.module.css";
 import { Link } from "react-router-dom";
-import image from "../../assets/whyusimg.jpeg"
+import image from "../../assets/whyusimg2.jpg"
 
 export default function WhyUs({
   title = "Why Us",

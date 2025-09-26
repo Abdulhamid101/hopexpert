@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Leads Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        font: 14px system-ui, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        margin: 0 0 12px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .list,
+      .detail {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 12px;
+      }
+      .lead {
+        padding: 8px;
+        border-bottom: 1px dashed #eee;
+        cursor: pointer;
+      }
+      .lead:hover {
+        background: #fafafa;
+      }
+      textarea,
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+      button {
+        padding: 8px 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .primary {
+        background: #111;
+        color: #fff;
+      }
+      .muted {
+        color: #666;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 6px;
+        align-items: start;
+      }
+      .pill {
+        display: inline-block;
+        padding: 2px 8px;
+        border: 1px solid #ddd;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Leads Admin</h1>
+    <p class="muted">
+      Token protected. Your API runs on the same origin. Open
+      <code>/api/health</code> to verify.
+    </p>
+    <div style="margin: 10px 0">
+      <input
+        id="token"
+        type="text"
+        placeholder="Paste ADMIN_TOKEN here"
+        style="width: 320px"
+      />
+      <button class="primary" onclick="loadLeads()">Load Leads</button>
+    </div>
+    <div class="row">
+      <div class="list">
+        <h3>Leads</h3>
+        <div id="leads"></div>
+      </div>
+      <div class="detail">
+        <h3>Details</h3>
+        <div id="detail" class="muted">Select a lead…</div>
+        <div id="replyBox" style="display: none; margin-top: 12px">
+          <h4>Send Reply</h4>
+          <input id="subject" type="text" placeholder="Subject" />
+          <div style="height: 8px"></div>
+          <textarea
+            id="message"
+            rows="6"
+            placeholder="Type your message…"
+          ></textarea>
+          <div style="height: 8px"></div>
+          <button class="primary" onclick="sendReply()">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentId = null;
+      const $ = (id) => document.getElementById(id);
+
+      async function api(path, opts = {}) {
+        const token = $("token").value.trim();
+        const headers = Object.assign(
+          {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          opts.headers || {}
+        );
+        const res = await fetch(path, Object.assign({ headers }, opts));
+        let data, text;
+        try {
+          data = await res.json();
+        } catch {
+          text = await res.text();
+        }
+        if (!res.ok || data?.ok === false)
+          throw new Error(data?.error || text || "HTTP " + res.status);
+        return data;
+      }
+
+      async function loadLeads() {
+        $("leads").innerHTML = "Loading…";
+        try {
+          const { items } = await api("/api/leads");
+          $("leads").innerHTML = "";
+          items.forEach((L) => {
+            const el = document.createElement("div");
+            el.className = "lead";
+            el.innerHTML = `
+        <div><b>${escapeHtml(L.first)} ${escapeHtml(
+              L.last
+            )}</b> <span class="pill">${escapeHtml(L.type || "-")}</span></div>
+        <div class="muted">${escapeHtml(L.email)} · ${escapeHtml(
+              L.country || "-"
+            )} · ${new Date(L.createdAt).toLocaleString()}</div>
+      `;
+            el.onclick = () => selectLead(L._id);
+            $("leads").appendChild(el);
+          });
+        } catch (e) {
+          $("leads").innerText = e.message;
+        }
+      }
+
+      async function selectLead(id) {
+        currentId = id;
+        $("replyBox").style.display = "none";
+        $("detail").innerHTML = "Loading…";
+        try {
+          const { lead } = await api(`/api/leads/${id}`);
+          $("detail").innerHTML = `
+      <div class="grid2">
+        <div><b>Lead ID</b></div><div>${escapeHtml(lead._id)}</div>
+        <div><b>Name</b></div><div>${escapeHtml(lead.first)} ${escapeHtml(
+            lead.last
+          )}</div>
+        <div><b>Email</b></div><div>${escapeHtml(lead.email)}</div>
+        <div><b>Phone</b></div><div>${escapeHtml(lead.phone || "-")}</div>
+        <div><b>Country</b></div><div>${escapeHtml(lead.country || "-")}</div>
+        <div><b>Type</b></div><div>${escapeHtml(lead.type || "-")}</div>
+        <div><b>Amount</b></div><div>${escapeHtml(lead.amount || "-")}</div>
+        <div><b>Submitted</b></div><div>${new Date(
+          lead.createdAt
+        ).toLocaleString()}</div>
+        <div><b>Summary</b></div><div>${escapeHtml(lead.summary || "").replace(
+          /\n/g,
+          "<br/>"
+        )}</div>
+      </div>
+      <div style="margin-top:10px">
+        <b>Status:</b> <span class="pill">${escapeHtml(
+          lead.status || "new"
+        )}</span>
+      </div>
+      <div style="margin-top:10px">
+        <b>Messages:</b>
+        <div class="muted">${
+          (lead.messages || []).length ? "" : "No replies yet."
+        }</div>
+        <ul>
+          ${(lead.messages || [])
+            .map(
+              (m) =>
+                `<li><b>${new Date(m.at).toLocaleString()}</b> — ${escapeHtml(
+                  m.subject || "(no subject)"
+                )}</li>`
+            )
+            .join("")}
+        </ul>
+      </div>
+    `;
+          $("replyBox").style.display = "block";
+        } catch (e) {
+          $("detail").innerText = e.message;
+        }
+      }
+
+      async function sendReply() {
+        if (!currentId) return alert("Pick a lead first");
+        const subject = $("subject").value.trim();
+        const message = $("message").value.trim();
+        if (!subject || !message)
+          return alert("Subject and message are required");
+        try {
+          await api(`/api/leads/${currentId}/reply`, {
+            method: "POST",
+            body: JSON.stringify({ subject, message }),
+          });
+          alert("Reply sent!");
+          $("subject").value = "";
+          $("message").value = "";
+          await selectLead(currentId);
+        } catch (e) {
+          alert(e.message);
+        }
+      }
+
+      function escapeHtml(s) {
+        return String(s ?? "").replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])
+        );
+      }
+    </script>
+  </body>
+</html>
