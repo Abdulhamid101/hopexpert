@@ -1,3 +1,0 @@
-{"$$indexCreated":{"fieldName":"createdAt","unique":false,"sparse":false}}
-{"first":"jane","last":"-","email":"jane@gmail.com","phone":"+46 893012323","country":"Sweden","type":"Cryptocurrency","amount":"Less than $5,000","summary":"wefkhaujfk.fld","createdAt":"2025-09-26T15:39:44.358Z","status":"new","messages":[],"_id":"O3DJt0U31si8ndTb"}
-{"first":"jane","last":"-","email":"jane@gmail.com","phone":"+46 893012323","country":"Sweden","type":"Cryptocurrency","amount":"Less than $5,000","summary":"wefkhaujfk.fld","createdAt":"2025-09-26T15:39:44.358Z","status":"new","messages":[],"_id":"O3DJt0U31si8ndTb","adminMessageId":"<64f6a29a-9abb-25e9-bcf1-0a107c590398@gmail.com>"}
